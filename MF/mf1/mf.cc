@@ -39,7 +39,7 @@ void mf(int ny, int nx, int hy, int hx, const float *in, float *out) {
       int start2 = (y - hy <= 0) ? 0 : y - hy ;
       int end2 = (y + hy + 1 >= ny) ? ny : y + hy +1;
 
-      std::array<float> win((end1 - start1) * (end2 - start2));
+      std::vector<float> win((end1 - start1) * (end2 - start2));
 
       int p = 0;
       for (int i = start2; i < end2; i++) {
