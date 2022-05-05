@@ -16,13 +16,11 @@ void correlate(const int ny, int nx, const float *data, float *result) {
     #pragma omp parallel for schedule(static , 1)
     for (int y = 0; y < ny; y++) {
         double sum = 0.0, mean = 0.0,pow_sum = 0.0, sqrt_sum_sqrt = 0.0;
-        
         for (int x = 0; x < nx; x++) {
             sum += data[x + y*nx];
         }
 
         mean = sum / nx;
-        
         for (int x = 0; x < nx; x++) {
             double normalized = data[x + y*nx] - mean;
             data_norm[x + y*nx] = normalized;
@@ -30,14 +28,14 @@ void correlate(const int ny, int nx, const float *data, float *result) {
         }
 
         sqrt_sum_sqrt = sqrt(pow_sum);
-        #pragma omp parallel for schedule(static , 1)
         for (int x = 0; x < nx; x++) {
             data_norm[x + y*nx] /= sqrt_sum_sqrt;
         }
     }
+
+    
     #pragma omp parallel for schedule(static , 1)
     for (int i = 0; i < ny; i++ ) {
-        #pragma omp parallel for schedule(static , 1)
         for (int j = 0; j <i+1; j++){
             double res = 0.0;
             for (int k = 0; k < nx; k++){
